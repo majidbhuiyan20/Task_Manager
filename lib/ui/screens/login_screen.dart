@@ -1,5 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:task_manager/ui/screens/forget_password.dart';
 import 'package:task_manager/ui/screens/sign_up_screen.dart';
 import 'package:task_manager/ui/widgets/Screen_Background.dart';
 
@@ -56,7 +57,9 @@ class _LoginScreenState extends State<LoginScreen> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        TextButton(onPressed: () {}, child: Text("Forgot Password?", style: TextStyle(color: Colors.green),)),
+                        TextButton(onPressed: () {
+                          _onTapForgetPasswordButton();
+                        }, child: Text("Forgot Password?", style: TextStyle(color: Colors.green),)),
                         RichText(
                           text: TextSpan(
                             text: "Don't have an account? ",
@@ -88,6 +91,10 @@ class _LoginScreenState extends State<LoginScreen> {
 
   void _onTapSignUpButton(){
     Navigator.push(context, MaterialPageRoute(builder: (_)=> SignUpScreen()));
+  }
+
+  void _onTapForgetPasswordButton(){
+    Navigator.push(context, MaterialPageRoute(builder: (_)=> ForgetPassword()));
   }
 
 

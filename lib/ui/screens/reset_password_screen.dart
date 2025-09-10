@@ -1,20 +1,20 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:task_manager/ui/screens/forget_password.dart';
+import 'package:task_manager/ui/screens/login_screen.dart';
+import 'package:task_manager/ui/screens/sign_up_screen.dart';
 import 'package:task_manager/ui/widgets/Screen_Background.dart';
 
-class SignUpScreen extends StatefulWidget {
-  const SignUpScreen({super.key});
+class ResetPasswordScreen extends StatefulWidget {
+  const ResetPasswordScreen({super.key});
 
   @override
-  State<SignUpScreen> createState() => _SignUpScreenState();
+  State<ResetPasswordScreen> createState() => _ResetPasswordScreenState();
 }
 
-class _SignUpScreenState extends State<SignUpScreen> {
-  TextEditingController _emailController = TextEditingController();
-  TextEditingController _firstNameController = TextEditingController();
-  TextEditingController _lastNameController = TextEditingController();
-  TextEditingController _mobileController = TextEditingController();
+class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
   TextEditingController _passwordController = TextEditingController();
+  TextEditingController _confirmPasswordController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override
@@ -31,39 +31,32 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 children: [
                   SizedBox(height: 80),
                   Text(
-                    "Join with us",
+                    "Reset Password",
                     style: Theme.of(context).textTheme.titleLarge,
                   ),
+                  Text(
+                    "Password must be at least 8 characters",
+                    style: Theme.of(
+                      context,
+                    ).textTheme.bodyLarge?.copyWith(color: Colors.grey),
+                  ),
                   SizedBox(height: 24),
-          
-                  TextField(
-                    controller: _emailController,
-                    decoration: InputDecoration(hintText: "Email"),
-                  ),
-                  SizedBox(height: 8),
-                  TextField(
-                    controller: _firstNameController,
-                    decoration: InputDecoration(hintText: "First Name"),
-                  ),
-                  SizedBox(height: 8),
-                  TextField(
-                    controller: _lastNameController,
-                    decoration: InputDecoration(hintText: "Last Name"),
-                  ),
-                  SizedBox(height: 8),
-                  TextField(
-                    controller: _mobileController,
-                    decoration: InputDecoration(hintText: "Mobile"),
-                  ),
-                  SizedBox(height: 8),
+
                   TextField(
                     controller: _passwordController,
+                    decoration: InputDecoration(hintText: "New Password"),
+                  ),
+                  SizedBox(height: 8),
+                  TextField(
+                    controller: _confirmPasswordController,
                     obscureText: true,
-                    decoration: InputDecoration(hintText: "Password"),
+                    decoration: InputDecoration(
+                      hintText: "Confirm New Password",
+                    ),
                   ),
                   SizedBox(height: 30),
                   FilledButton(
-                    onPressed: () {},
+                    onPressed: _onTapNextButton,
                     child: Icon(Icons.arrow_circle_right_outlined),
                   ),
                   SizedBox(height: 30),
@@ -80,8 +73,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 text: "Login",
                                 style: TextStyle(color: Colors.green),
                                 recognizer: TapGestureRecognizer()
-                                  ..onTap = _onTapLoginButton,
-          
+                                  ..onTap = () {
+                                    _onTapLoginButton();
+                                  },
                               ),
                             ],
                           ),
@@ -99,16 +93,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
   }
 
   void _onTapLoginButton() {
-    Navigator.pop(context);
+    Navigator.push(context, MaterialPageRoute(builder: (_) => LoginScreen()));
   }
+ void _onTapNextButton(){
+    Navigator.push(context, MaterialPageRoute(builder: (_)=> LoginScreen()));
+ }
 
   @override
   void dispose() {
-    _emailController.dispose();
     _passwordController.dispose();
-    _firstNameController.dispose();
-    _lastNameController.dispose();
-    _mobileController.dispose();
+    _confirmPasswordController.dispose();
     super.dispose();
   }
 }
