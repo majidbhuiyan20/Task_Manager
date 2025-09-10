@@ -30,6 +30,20 @@ class _TaskManagerAppState extends State<TaskManagerApp> {
               borderSide: BorderSide.none,
             )
         ),
+        filledButtonTheme: FilledButtonThemeData(
+          style: FilledButton.styleFrom(
+            backgroundColor: Colors.green,
+            padding: EdgeInsets.symmetric(vertical: 16),
+            fixedSize: Size.fromWidth(double.maxFinite),
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+          ),
+        ),
+        textTheme: TextTheme(
+          titleLarge: TextStyle(
+            fontSize: 28,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
       ),
         home: SplashScreen(),
     );

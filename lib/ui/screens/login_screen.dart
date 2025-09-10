@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:task_manager/ui/widgets/Screen_Background.dart';
 
@@ -26,7 +27,7 @@ class _LoginScreenState extends State<LoginScreen> {
              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SizedBox(height: 80,),
-                Text("Get Started With", style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),),
+                Text("Get Started With", style: Theme.of(context).textTheme.titleLarge,),
                 SizedBox(height: 24,),
             
                 TextField(
@@ -43,12 +44,6 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 SizedBox(height: 30,),
                 FilledButton(
-                  style: FilledButton.styleFrom(
-                    backgroundColor: Colors.green,
-                    padding: EdgeInsets.symmetric(vertical: 16),
-                    fixedSize: Size.fromWidth(double.maxFinite),
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                  ),
                   onPressed: () {},
                   child: Icon(Icons.arrow_circle_right_outlined),
                 ),
@@ -57,7 +52,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      TextButton(onPressed: () {}, child: Text("Forgot Password?")),
+                      TextButton(onPressed: () {}, child: Text("Forgot Password?", style: TextStyle(color: Colors.green),)),
                       RichText(
                         text: TextSpan(
                           text: "Don't have an account? ",
@@ -65,7 +60,9 @@ class _LoginScreenState extends State<LoginScreen> {
                           children: [
                             TextSpan(
                               text: "Sign Up",
-                              style: TextStyle(color: Colors.blue),
+                              style: TextStyle(color: Colors.green),
+                              recognizer: TapGestureRecognizer()..onTap = (){},
+
                             ),
                           ],
                         ),
@@ -80,5 +77,11 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
       ),
     );
+  }
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
   }
 }
