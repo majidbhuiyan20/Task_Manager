@@ -12,8 +12,8 @@ class _TaskManagerAppState extends State<TaskManagerApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme:
-      ThemeData(
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
         //colorScheme: ,
         inputDecorationTheme: InputDecorationTheme(
             fillColor: Colors.white,
