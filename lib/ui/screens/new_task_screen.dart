@@ -3,14 +3,14 @@ import 'package:flutter/material.dart';
 import '../widgets/task_card.dart';
 import '../widgets/task_cout_by_status_card.dart';
 
-class ProgressTaskScreen extends StatefulWidget {
-  const ProgressTaskScreen({super.key});
+class NewTaskScreen extends StatefulWidget {
+  const NewTaskScreen({super.key});
 
   @override
-  State<ProgressTaskScreen> createState() => _ProgressTaskScreenState();
+  State<NewTaskScreen> createState() => _NewTaskScreenState();
 }
 
-class _ProgressTaskScreenState extends State<ProgressTaskScreen> {
+class _NewTaskScreenState extends State<NewTaskScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
