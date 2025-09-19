@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../widgets/task_card.dart';
 import '../widgets/task_cout_by_status_card.dart';
 
 class ProgressTaskScreen extends StatefulWidget {
@@ -23,12 +24,19 @@ class _ProgressTaskScreenState extends State<ProgressTaskScreen> {
                 itemCount: 4,
                 scrollDirection: Axis.horizontal,
                 itemBuilder: (context, index) =>
-                    TaskCountByStatusCard(
-                        title: "New",
-                        count: 10
-                    ),
-                separatorBuilder: (context, index) =>SizedBox(width: 8,),
-
+                    TaskCountByStatusCard(title: "New", count: 10),
+                separatorBuilder: (context, index) => SizedBox(width: 8),
+              ),
+            ),
+            Expanded(
+              child: ListView.separated(
+                itemCount: 10,
+                itemBuilder: (context, index) {
+                  return TaskCard();
+                },
+                separatorBuilder: (context, index) {
+                  return SizedBox(height: 8);
+                },
               ),
             ),
           ],
@@ -43,5 +51,3 @@ class _ProgressTaskScreenState extends State<ProgressTaskScreen> {
     );
   }
 }
-
-

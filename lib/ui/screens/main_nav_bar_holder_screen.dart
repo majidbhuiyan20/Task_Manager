@@ -42,6 +42,3 @@ class _MainNavBarHolderScreenState extends State<MainNavBarHolderScreen> {
     );
   }
 }
-
-
-
