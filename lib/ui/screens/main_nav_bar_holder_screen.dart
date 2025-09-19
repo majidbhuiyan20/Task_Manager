@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:task_manager/ui/screens/progress_task_screen.dart';
+import 'package:task_manager/ui/screens/new_task_screen.dart';
 
 import '../widgets/tm_app_bar.dart';
 
