@@ -23,7 +23,7 @@ class TMAppBar extends StatelessWidget implements PreferredSizeWidget {
             {
               return;
             }
-          Navigator.push(context, MaterialPageRoute(builder: (_)=> UpdateProfileScreen()));
+          Navigator.pushNamed(context, UpdateProfileScreen.name);
         },
         child: Row(
           spacing: 8,

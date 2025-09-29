@@ -7,6 +7,7 @@ import 'forget_password_otp_screen.dart';
 
 class ForgetPassword extends StatefulWidget {
   const ForgetPassword({super.key});
+  static const String name = '/forget-password';
 
   @override
   State<ForgetPassword> createState() => _ForgetPasswordState();
@@ -82,10 +83,10 @@ class _ForgetPasswordState extends State<ForgetPassword> {
   }
 
   void _onTapSignUpButton(){
-    Navigator.push(context, MaterialPageRoute(builder: (_)=> SignUpScreen()));
+    Navigator.pushNamed(context, SignUpScreen.name);
   }
   void _onTapNextButton(){
-    Navigator.push(context, MaterialPageRoute(builder: (_)=> ForgetPasswordOtpScreen()));
+    Navigator.pushNamed(context, ForgetPasswordOtpScreen.name);
   }
 
 

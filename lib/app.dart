@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:task_manager/ui/screens/add_new_task_screen.dart';
+import 'package:task_manager/ui/screens/forget_password.dart';
+import 'package:task_manager/ui/screens/forget_password_otp_screen.dart';
 import 'package:task_manager/ui/screens/login_screen.dart';
 import 'package:task_manager/ui/screens/main_nav_bar_holder_screen.dart';
+import 'package:task_manager/ui/screens/reset_password_screen.dart';
 import 'package:task_manager/ui/screens/sign_up_screen.dart';
 import 'package:task_manager/ui/screens/splash_screen.dart';
 import 'package:task_manager/ui/screens/update_profile_screen.dart';
@@ -49,13 +53,18 @@ class _TaskManagerAppState extends State<TaskManagerApp> {
           ),
         ),
       ),
-      initialRoute: '/',
+      initialRoute: SplashScreen.name,
       routes: {
-          '/': (_) => SplashScreen(),
-        '/login': (_) => LoginScreen(),
-        '/sign-up': (_) =>SignUpScreen(),
-        '/dashboard':(_)=> MainNavBarHolderScreen(),
-        '/update-profile':(_)=> UpdateProfileScreen(),
+          SplashScreen.name: (_) => SplashScreen(),
+        LoginScreen.name: (_) => LoginScreen(),
+        ForgetPassword.name:(_)=> ForgetPassword(),
+        ResetPasswordScreen.name:(_)=> ResetPasswordScreen(),
+        SignUpScreen.name: (_) =>SignUpScreen(),
+        MainNavBarHolderScreen.name:(_)=> MainNavBarHolderScreen(),
+        UpdateProfileScreen.name:(_)=> UpdateProfileScreen(),
+        AddNewTaskScreen.name:(_)=> AddNewTaskScreen(),
+        ForgetPasswordOtpScreen.name: (_)=> ForgetPasswordOtpScreen(),
+
         },
     );
   }
