@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
 class photo_picker_field extends StatelessWidget {
   const photo_picker_field({
-    super.key, required this.onTap,
+    super.key, required this.onTap, this.selectedPhoto,
   });
   final VoidCallback onTap;
+  final XFile? selectedPhoto;
 
   @override
   Widget build(BuildContext context) {
@@ -24,14 +26,14 @@ class photo_picker_field extends StatelessWidget {
               height: double.maxFinite,
               alignment: Alignment.center,
               decoration: BoxDecoration(
-                color: Colors.grey,
+                color: Colors.black54,
                 borderRadius: BorderRadius.only(topLeft: Radius.circular(8), bottomLeft: Radius.circular(8)),
               ),
               child: Text("Photo", style:TextStyle(color: Colors.white),),
             ),
             SizedBox(width: 12,),
             Container(
-              child: Text("No Photo is Selected "),
+              child: Text(selectedPhoto==null ? "No Photo is Selected " : selectedPhoto!.name, maxLines: 1, overflow: TextOverflow.ellipsis,),
             )
           ],
         ),
