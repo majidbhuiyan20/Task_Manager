@@ -1,12 +1,18 @@
 import 'dart:convert';
 
 import 'package:http/http.dart';
+import 'package:logger/logger.dart';
 
 class ApiCaller {
+  final Logger _logger = Logger();
   Future<ApiResponse> getRequest({required String url}) async {
+
     try {
       Uri uri = Uri.parse(url);
+      _logRequest(url);
       Response response = await get(uri);
+
+      _logResponse(url, response);
 
       print(url);
       print(response.statusCode);
@@ -36,6 +42,16 @@ class ApiCaller {
         errorMessage: e.toString(),
       );
     }
+  }
+  void _logRequest(String url){
+    _logger.i('URL => $url');
+  }
+  void _logResponse(String url, Response response){
+    _logger.i('URL => $url\n'
+        'Status Code => ${response.statusCode}'
+        'Body => ${response.body}');
+
+
   }
 }
 
