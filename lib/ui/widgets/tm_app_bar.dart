@@ -4,19 +4,19 @@ import '../screens/update_profile_screen.dart';
 
 class TMAppBar extends StatelessWidget implements PreferredSizeWidget {
   const TMAppBar({
-    super.key, this.isUpDateProfile,
+    super.key, this.isUpDateProfile, this.isAddNewTaskScreen,
   });
   final bool? isUpDateProfile;
+  final bool? isAddNewTaskScreen;
 
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      leading: (isUpDateProfile ?? false) ? BackButton(
-        color: Colors.white,
-        onPressed: (){Navigator.pop(context);},
-      ) : null,
-      automaticallyImplyLeading: isUpDateProfile ?? false,
+      leading: (isUpDateProfile ?? false) || (isAddNewTaskScreen ?? false)
+          ? const BackButton(color: Colors.white)
+          : null,
       backgroundColor: Colors.green,
+      automaticallyImplyLeading: false,
       title: GestureDetector(
         onTap: (){
           if(isUpDateProfile ?? false)
