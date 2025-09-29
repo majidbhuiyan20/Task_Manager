@@ -11,7 +11,11 @@ class TMAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      automaticallyImplyLeading: false,
+      leading: (isUpDateProfile ?? false) ? BackButton(
+        color: Colors.white,
+        onPressed: (){Navigator.pop(context);},
+      ) : null,
+      automaticallyImplyLeading: isUpDateProfile ?? false,
       backgroundColor: Colors.green,
       title: GestureDetector(
         onTap: (){
