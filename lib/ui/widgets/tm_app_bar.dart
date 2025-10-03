@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:task_manager/ui/controllers/auth_controller.dart';
+import 'package:task_manager/ui/screens/login_screen.dart';
 
 import '../screens/update_profile_screen.dart';
 
-class TMAppBar extends StatelessWidget implements PreferredSizeWidget {
+class TMAppBar extends StatefulWidget implements PreferredSizeWidget {
   const TMAppBar({
     super.key, this.isUpDateProfile, this.isAddNewTaskScreen,
   });
@@ -10,16 +12,24 @@ class TMAppBar extends StatelessWidget implements PreferredSizeWidget {
   final bool? isAddNewTaskScreen;
 
   @override
+  State<TMAppBar> createState() => _TMAppBarState();
+
+  @override
+  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
+}
+
+class _TMAppBarState extends State<TMAppBar> {
+  @override
   Widget build(BuildContext context) {
     return AppBar(
-      leading: (isUpDateProfile ?? false) || (isAddNewTaskScreen ?? false)
+      leading: (widget.isUpDateProfile ?? false) || (widget.isAddNewTaskScreen ?? false)
           ? const BackButton(color: Colors.white)
           : null,
       backgroundColor: Colors.green,
       automaticallyImplyLeading: false,
       title: GestureDetector(
         onTap: (){
-          if(isUpDateProfile ?? false)
+          if(widget.isUpDateProfile ?? false)
             {
               return;
             }
@@ -41,12 +51,12 @@ class TMAppBar extends StatelessWidget implements PreferredSizeWidget {
         ),
       ),
       actions: [
-        IconButton(onPressed: (){}, icon: Icon(Icons.logout, color: Colors.white,)),
+        IconButton(onPressed:signOut, icon: Icon(Icons.logout, color: Colors.white,)),
       ],
     );
   }
-
-  @override
-  // TODO: implement preferredSize
-  Size get preferredSize => Size.fromHeight(kToolbarHeight);
+  Future<void> signOut()async{
+    await AuthController.clearUserData();
+    Navigator.pushNamedAndRemoveUntil(context, LoginScreen.name, (predicate)=>false );
+  }
 }

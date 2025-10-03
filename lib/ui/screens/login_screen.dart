@@ -1,8 +1,10 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:task_manager/data/model/user_model.dart';
 import 'package:task_manager/data/services/api_caller.dart';
 import 'package:task_manager/data/utils/urls.dart';
+import 'package:task_manager/ui/controllers/auth_controller.dart';
 import 'package:task_manager/ui/screens/forget_password.dart';
 import 'package:task_manager/ui/screens/sign_up_screen.dart';
 import 'package:task_manager/ui/widgets/Screen_Background.dart';
@@ -141,6 +143,9 @@ Future<void> _login()async{
     final ApiResponse response = await ApiCaller.postRequest(url: Urls.loginUrl, body: requestBody);
 
     if(response.isSuccess && response.responseData['status']=='success'){
+      UserModel model = UserModel.fromJson(response.responseData['data']);
+      String accessToken = response.responseData['token'];
+      await AuthController.saveUserData(model, accessToken);
       showSnackBarMessage(context, "Login Successful", Colors.green);
       Navigator.pushNamedAndRemoveUntil(context, MainNavBarHolderScreen.name, (predicate)=> false);
     }

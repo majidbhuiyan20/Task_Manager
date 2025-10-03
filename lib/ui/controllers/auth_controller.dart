@@ -39,5 +39,8 @@ class AuthController{
     String? token = sharedPreferences.getString(_accessTokenKey);
     return token!=null;
   }
-
+  static Future<void> clearUserData()async{
+  SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+  await sharedPreferences.clear();
+  }
 }
