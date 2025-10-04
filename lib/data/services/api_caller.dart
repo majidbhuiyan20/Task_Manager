@@ -1,8 +1,12 @@
 import 'dart:convert';
 
+import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart';
 import 'package:logger/logger.dart';
 import 'package:task_manager/ui/controllers/auth_controller.dart';
+import 'package:task_manager/ui/screens/login_screen.dart';
+
+import '../../app.dart';
 
 class ApiCaller {
   static final Logger _logger = Logger();
@@ -23,7 +27,16 @@ class ApiCaller {
           responseCode: statusCode,
           responseData: decodedData,
         );
-      } else {
+      }
+      else if(statusCode == 401){
+        await _moveToLogin();
+        return ApiResponse(
+          isSuccess: false,
+          responseCode: statusCode,
+          responseData: null,
+          errorMessage: "Unauthorized",);
+      }
+      else {
         final decodedData = json.decode(response.body);
         return ApiResponse(
           isSuccess: false,
@@ -68,7 +81,16 @@ class ApiCaller {
           responseCode: statusCode,
           responseData: decodedData,
         );
-      } else {
+      }
+      else if(statusCode == 401){
+        await _moveToLogin();
+        return ApiResponse(
+          isSuccess: false,
+          responseCode: statusCode,
+          responseData: null,
+          errorMessage: "Unauthorized",);
+      }
+      else {
         final decodedData = json.decode(response.body);
         return ApiResponse(
           isSuccess: false,
@@ -99,6 +121,11 @@ class ApiCaller {
       'Status Code => ${response.statusCode}\n'
       'Body => ${response.body}',
     );
+  }
+
+  static Future<void> _moveToLogin() async{
+    await AuthController.clearUserData();
+    Navigator.pushNamedAndRemoveUntil(TaskManagerApp.navigator.currentContext!, LoginScreen.name, (predicate)=> false);
   }
 }
 
