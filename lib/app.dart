@@ -9,18 +9,14 @@ import 'package:task_manager/ui/screens/sign_up_screen.dart';
 import 'package:task_manager/ui/screens/splash_screen.dart';
 import 'package:task_manager/ui/screens/update_profile_screen.dart';
 
-class TaskManagerApp extends StatefulWidget {
+class TaskManagerApp extends StatelessWidget {
   const TaskManagerApp({super.key});
   static GlobalKey<NavigatorState> navigator = GlobalKey<NavigatorState>();
 
   @override
-  State<TaskManagerApp> createState() => _TaskManagerAppState();
-}
-
-class _TaskManagerAppState extends State<TaskManagerApp> {
-  @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      navigatorKey: navigator ,
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         //colorScheme: ,
