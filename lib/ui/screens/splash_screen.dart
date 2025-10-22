@@ -41,7 +41,8 @@ class _SplashScreenState extends State<SplashScreen> {
       body: 
         ScreenBackground(
           child: Center(
-              child: SvgPicture.asset(AssetPaths.logoSvg, height: 60,),
+              // child: SvgPicture.asset(AssetPaths.logoSvg, height: 60,),
+              child: Image.asset(AssetPaths.logoPng),
             ),
         ),
     
