@@ -138,9 +138,9 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
   }
 
   void _onTapUpdateButton(){
-      if(_formKey.currentState!.validate()){
+
           _updateProfile();
-      }
+
   }
 
   Future<void> _updateProfile() async{
@@ -157,10 +157,13 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
         requestBody["password"] = _passwordController.text;
       }
 
+      String? encodedPhoto;
+
       if (_selectedImage != null) {
-        Uint8List bytes = await _selectedImage!.readAsBytes();
-        String base64Image = base64Encode(bytes);
-        requestBody["photo"] = base64Image;
+
+        List<int>  bytes = await _selectedImage!.readAsBytes();
+        encodedPhoto = jsonEncode(bytes);
+        requestBody["photo"] = jsonEncode(bytes);
       }
 
 
@@ -170,6 +173,15 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
       setState(() {});
       if(response.isSuccess){
         _passwordController.clear();
+        UserModel model = UserModel(id: AuthController.userModel!.id,
+            email: _emailController.text,
+            firstName: _firstNameController.text.trim(),
+            lastName: _lastNameController.text.trim(),
+            mobile: _mobileController.text.trim(),
+            photo: encodedPhoto ??  AuthController.userModel!.photo
+        );
+
+       await AuthController.updateUserData(model);
         showSnackBarMessage(context, "Profile Update Successful", Colors.green);
       }
       else{
