@@ -8,6 +8,7 @@ import 'package:task_manager/ui/screens/reset_password_screen.dart';
 import 'package:task_manager/ui/screens/sign_up_screen.dart';
 import 'package:task_manager/ui/screens/splash_screen.dart';
 import 'package:task_manager/ui/screens/update_profile_screen.dart';
+import 'package:task_manager/ui/utils/app_colors.dart';
 
 class TaskManagerApp extends StatelessWidget {
   const TaskManagerApp({super.key});
@@ -16,53 +17,116 @@ class TaskManagerApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      navigatorKey: navigator ,
+      navigatorKey: navigator,
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        //colorScheme: ,
+        useMaterial3: true,
+        scaffoldBackgroundColor: AppColors.scaffoldBg,
+        colorSchemeSeed: AppColors.primary,
+        fontFamily: 'Roboto',
         inputDecorationTheme: InputDecorationTheme(
-            fillColor: Colors.white,
-            filled: true,
-            contentPadding: EdgeInsets.symmetric(horizontal: 16),
-            hintStyle: TextStyle(color: Colors.grey),
-            border: OutlineInputBorder(
-              borderSide: BorderSide.none,
+          fillColor: Colors.white,
+          filled: true,
+          contentPadding:
+              const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
+          hintStyle: const TextStyle(
+            color: AppColors.textHint,
+            fontSize: 15,
+            fontWeight: FontWeight.w400,
+          ),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(14),
+            borderSide: BorderSide.none,
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(14),
+            borderSide: BorderSide(
+              color: Colors.grey.shade200,
+              width: 1.2,
             ),
-            enabledBorder: OutlineInputBorder(
-              borderSide: BorderSide.none,
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(14),
+            borderSide: const BorderSide(
+              color: AppColors.primary,
+              width: 1.8,
             ),
-            errorBorder: OutlineInputBorder(
-              borderSide: BorderSide.none,
-            )
+          ),
+          errorBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(14),
+            borderSide: const BorderSide(
+              color: AppColors.statusCancelled,
+              width: 1.2,
+            ),
+          ),
+          focusedErrorBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(14),
+            borderSide: const BorderSide(
+              color: AppColors.statusCancelled,
+              width: 1.8,
+            ),
+          ),
         ),
         filledButtonTheme: FilledButtonThemeData(
           style: FilledButton.styleFrom(
-            backgroundColor: Colors.green,
-            padding: EdgeInsets.symmetric(vertical: 16),
-            fixedSize: Size.fromWidth(double.maxFinite),
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+            backgroundColor: AppColors.primary,
+            foregroundColor: Colors.white,
+            padding: const EdgeInsets.symmetric(vertical: 16),
+            fixedSize: const Size.fromWidth(double.maxFinite),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(14),
+            ),
+            elevation: 2,
+            textStyle: const TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.w600,
+              letterSpacing: 0.5,
+            ),
           ),
         ),
-        textTheme: TextTheme(
+        textTheme: const TextTheme(
           titleLarge: TextStyle(
-            fontSize: 28,
+            fontSize: 30,
+            fontWeight: FontWeight.w700,
+            color: AppColors.textPrimary,
+            letterSpacing: -0.5,
+          ),
+          titleMedium: TextStyle(
+            fontSize: 20,
             fontWeight: FontWeight.w600,
+            color: AppColors.textPrimary,
+          ),
+          titleSmall: TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.w600,
+            color: AppColors.textPrimary,
+          ),
+          bodyLarge: TextStyle(
+            fontSize: 16,
+            color: AppColors.textSecondary,
+          ),
+          bodyMedium: TextStyle(
+            fontSize: 14,
+            color: AppColors.textSecondary,
+          ),
+          bodySmall: TextStyle(
+            fontSize: 12,
+            color: AppColors.textSecondary,
           ),
         ),
       ),
       initialRoute: SplashScreen.name,
       routes: {
-          SplashScreen.name: (_) => SplashScreen(),
+        SplashScreen.name: (_) => SplashScreen(),
         LoginScreen.name: (_) => LoginScreen(),
-        ForgetPassword.name:(_)=> ForgetPassword(),
-        ResetPasswordScreen.name:(_)=> ResetPasswordScreen(),
-        SignUpScreen.name: (_) =>SignUpScreen(),
-        MainNavBarHolderScreen.name:(_)=> MainNavBarHolderScreen(),
-        UpdateProfileScreen.name:(_)=> UpdateProfileScreen(),
-        AddNewTaskScreen.name:(_)=> AddNewTaskScreen(),
-        ForgetPasswordOtpScreen.name: (_)=> ForgetPasswordOtpScreen(),
-
-        },
+        ForgetPassword.name: (_) => ForgetPassword(),
+        ResetPasswordScreen.name: (_) => ResetPasswordScreen(),
+        SignUpScreen.name: (_) => SignUpScreen(),
+        MainNavBarHolderScreen.name: (_) => MainNavBarHolderScreen(),
+        UpdateProfileScreen.name: (_) => UpdateProfileScreen(),
+        AddNewTaskScreen.name: (_) => AddNewTaskScreen(),
+        ForgetPasswordOtpScreen.name: (_) => ForgetPasswordOtpScreen(),
+      },
     );
   }
 }

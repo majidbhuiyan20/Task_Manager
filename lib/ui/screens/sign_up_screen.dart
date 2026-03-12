@@ -3,6 +3,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:task_manager/data/services/api_caller.dart';
 import 'package:task_manager/data/utils/urls.dart';
+import 'package:task_manager/ui/utils/app_colors.dart';
 import 'package:task_manager/ui/widgets/Screen_Background.dart';
 import 'package:task_manager/ui/widgets/snack_bar_message.dart';
 
@@ -21,7 +22,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   TextEditingController _mobileController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-
+  bool _obscurePassword = true;
   bool _signUpInProgress = false;
 
   @override
@@ -30,24 +31,48 @@ class _SignUpScreenState extends State<SignUpScreen> {
       body: ScreenBackground(
         child: SingleChildScrollView(
           child: Padding(
-            padding: const EdgeInsets.all(16.0),
+            padding: const EdgeInsets.symmetric(horizontal: 24.0),
             child: Form(
               key: _formKey,
               autovalidateMode: AutovalidateMode.onUserInteraction,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SizedBox(height: 80),
+                  const SizedBox(height: 80),
+                  Container(
+                    padding: const EdgeInsets.all(16),
+                    decoration: BoxDecoration(
+                      color: AppColors.accent.withValues(alpha: 0.1),
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: const Icon(
+                      Icons.person_add_rounded,
+                      size: 40,
+                      color: AppColors.accent,
+                    ),
+                  ),
+                  const SizedBox(height: 24),
                   Text(
-                    "Join with us",
+                    "Join With Us",
                     style: Theme.of(context).textTheme.titleLarge,
                   ),
-                  SizedBox(height: 24),
-
+                  const SizedBox(height: 6),
+                  Text(
+                    "Create an account to get started",
+                    style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                          color: AppColors.textSecondary,
+                        ),
+                  ),
+                  const SizedBox(height: 32),
                   TextFormField(
                     controller: _emailController,
-                    decoration: InputDecoration(hintText: "Email"),
+                    decoration: const InputDecoration(
+                      hintText: "Email address",
+                      prefixIcon: Icon(Icons.email_outlined,
+                          color: AppColors.textHint, size: 22),
+                    ),
                     textInputAction: TextInputAction.next,
+                    keyboardType: TextInputType.emailAddress,
                     validator: (String? value) {
                       String inputText = value ?? '';
                       if (EmailValidator.validate(inputText) == false) {
@@ -56,34 +81,54 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       return null;
                     },
                   ),
-                  SizedBox(height: 8),
-                  TextFormField(
-                    controller: _firstNameController,
-                    decoration: InputDecoration(hintText: "First Name"),
-                    textInputAction: TextInputAction.next,
-                    validator: (String? value) {
-                      if (value?.trim().isEmpty ?? true) {
-                        return 'Enter a first name';
-                      }
-                      return null;
-                    },
+                  const SizedBox(height: 14),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: TextFormField(
+                          controller: _firstNameController,
+                          decoration: const InputDecoration(
+                            hintText: "First Name",
+                            prefixIcon: Icon(Icons.person_outline_rounded,
+                                color: AppColors.textHint, size: 22),
+                          ),
+                          textInputAction: TextInputAction.next,
+                          validator: (String? value) {
+                            if (value?.trim().isEmpty ?? true) {
+                              return 'Required';
+                            }
+                            return null;
+                          },
+                        ),
+                      ),
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: TextFormField(
+                          controller: _lastNameController,
+                          decoration: const InputDecoration(
+                            hintText: "Last Name",
+                            prefixIcon: Icon(Icons.person_outline_rounded,
+                                color: AppColors.textHint, size: 22),
+                          ),
+                          textInputAction: TextInputAction.next,
+                          validator: (String? value) {
+                            if (value?.trim().isEmpty ?? true) {
+                              return 'Required';
+                            }
+                            return null;
+                          },
+                        ),
+                      ),
+                    ],
                   ),
-                  SizedBox(height: 8),
-                  TextFormField(
-                    controller: _lastNameController,
-                    decoration: InputDecoration(hintText: "Last Name"),
-                    textInputAction: TextInputAction.next,
-                    validator: (String? value) {
-                      if (value?.trim().isEmpty ?? true) {
-                        return 'Enter a last name';
-                      }
-                      return null;
-                    },
-                  ),
-                  SizedBox(height: 8),
+                  const SizedBox(height: 14),
                   TextFormField(
                     controller: _mobileController,
-                    decoration: InputDecoration(hintText: "Mobile"),
+                    decoration: const InputDecoration(
+                      hintText: "Mobile number",
+                      prefixIcon: Icon(Icons.phone_outlined,
+                          color: AppColors.textHint, size: 22),
+                    ),
                     textInputAction: TextInputAction.next,
                     keyboardType: TextInputType.phone,
                     validator: (String? value) {
@@ -93,12 +138,30 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       return null;
                     },
                   ),
-                  SizedBox(height: 8),
+                  const SizedBox(height: 14),
                   TextFormField(
                     controller: _passwordController,
-                    obscureText: true,
-                    decoration: InputDecoration(hintText: "Password"),
-                    textInputAction: TextInputAction.next,
+                    obscureText: _obscurePassword,
+                    decoration: InputDecoration(
+                      hintText: "Password",
+                      prefixIcon: const Icon(Icons.lock_outline_rounded,
+                          color: AppColors.textHint, size: 22),
+                      suffixIcon: IconButton(
+                        icon: Icon(
+                          _obscurePassword
+                              ? Icons.visibility_off_outlined
+                              : Icons.visibility_outlined,
+                          color: AppColors.textHint,
+                          size: 22,
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            _obscurePassword = !_obscurePassword;
+                          });
+                        },
+                      ),
+                    ),
+                    textInputAction: TextInputAction.done,
                     validator: (String? value) {
                       if ((value?.length ?? 0) < 6) {
                         return 'Enter a password more than 6 letter';
@@ -106,39 +169,52 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       return null;
                     },
                   ),
-                  SizedBox(height: 30),
+                  const SizedBox(height: 28),
                   Visibility(
-                    visible: _signUpInProgress==false,
-                    replacement: Center(
-                      child: CircularProgressIndicator(),
+                    visible: _signUpInProgress == false,
+                    replacement: const Center(
+                      child: Padding(
+                        padding: EdgeInsets.all(12),
+                        child:
+                            CircularProgressIndicator(color: AppColors.primary),
+                      ),
                     ),
                     child: FilledButton(
                       onPressed: _onTapSubmitButton,
-                      child: Icon(Icons.arrow_circle_right_outlined),
+                      child: const Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text("Create Account"),
+                          SizedBox(width: 8),
+                          Icon(Icons.arrow_forward_rounded, size: 20),
+                        ],
+                      ),
                     ),
                   ),
-                  SizedBox(height: 30),
+                  const SizedBox(height: 32),
                   Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        RichText(
-                          text: TextSpan(
-                            text: "Already have an account? ",
-                            style: TextStyle(color: Colors.black),
-                            children: [
-                              TextSpan(
-                                text: "Login",
-                                style: TextStyle(color: Colors.green),
-                                recognizer: TapGestureRecognizer()
-                                  ..onTap = _onTapLoginButton,
-                              ),
-                            ],
-                          ),
+                    child: RichText(
+                      text: TextSpan(
+                        text: "Already have an account? ",
+                        style: const TextStyle(
+                          color: AppColors.textSecondary,
+                          fontSize: 15,
                         ),
-                      ],
+                        children: [
+                          TextSpan(
+                            text: "Login",
+                            style: const TextStyle(
+                              color: AppColors.primary,
+                              fontWeight: FontWeight.w700,
+                            ),
+                            recognizer: TapGestureRecognizer()
+                              ..onTap = _onTapLoginButton,
+                          ),
+                        ],
+                      ),
                     ),
                   ),
+                  const SizedBox(height: 24),
                 ],
               ),
             ),
@@ -170,27 +246,29 @@ class _SignUpScreenState extends State<SignUpScreen> {
       body: requestBody,
     );
     _signUpInProgress = false;
-    setState(() {
-
-    });
+    setState(() {});
     if (response.isSuccess) {
       _onTapClearTextField();
-      showSnackBarMessage(context, "Registration is Successful!", Colors.green);
+      showSnackBarMessage(
+          context, "Registration is Successful!", AppColors.statusCompleted);
     } else {
-      showSnackBarMessage(context, response.errorMessage!, Colors.red);
+      showSnackBarMessage(
+          context, response.errorMessage!, AppColors.statusCancelled);
     }
   }
 
   void _onTapLoginButton() {
     Navigator.pop(context);
   }
-  void _onTapClearTextField(){
+
+  void _onTapClearTextField() {
     _firstNameController.clear();
     _lastNameController.clear();
     _mobileController.clear();
     _emailController.clear();
     _passwordController.clear();
   }
+
   @override
   void dispose() {
     _emailController.dispose();

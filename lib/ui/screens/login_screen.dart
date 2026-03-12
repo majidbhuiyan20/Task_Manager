@@ -7,6 +7,7 @@ import 'package:task_manager/data/utils/urls.dart';
 import 'package:task_manager/ui/controllers/auth_controller.dart';
 import 'package:task_manager/ui/screens/forget_password.dart';
 import 'package:task_manager/ui/screens/sign_up_screen.dart';
+import 'package:task_manager/ui/utils/app_colors.dart';
 import 'package:task_manager/ui/widgets/Screen_Background.dart';
 import 'package:task_manager/ui/widgets/snack_bar_message.dart';
 
@@ -22,11 +23,10 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-
+  bool _obscurePassword = true;
   bool _loginInProgress = false;
 
   @override
@@ -35,22 +35,48 @@ class _LoginScreenState extends State<LoginScreen> {
       body: ScreenBackground(
         child: SingleChildScrollView(
           child: Padding(
-            padding: const EdgeInsets.all(16.0),
+            padding: const EdgeInsets.symmetric(horizontal: 24.0),
             child: Form(
               autovalidateMode: AutovalidateMode.onUserInteraction,
               key: _formKey,
               child: Column(
-               crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SizedBox(height: 80,),
-                  Text("Get Started With", style: Theme.of(context).textTheme.titleLarge,),
-                  SizedBox(height: 24,),
-              
+                  const SizedBox(height: 100),
+                  // Welcome icon
+                  Container(
+                    padding: const EdgeInsets.all(16),
+                    decoration: BoxDecoration(
+                      color: AppColors.primary.withValues(alpha: 0.1),
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: const Icon(
+                      Icons.task_alt_rounded,
+                      size: 40,
+                      color: AppColors.primary,
+                    ),
+                  ),
+                  const SizedBox(height: 24),
+                  Text(
+                    "Welcome Back!",
+                    style: Theme.of(context).textTheme.titleLarge,
+                  ),
+                  const SizedBox(height: 6),
+                  Text(
+                    "Sign in to continue managing your tasks",
+                    style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                          color: AppColors.textSecondary,
+                        ),
+                  ),
+                  const SizedBox(height: 36),
                   TextFormField(
                     controller: _emailController,
-                    decoration: InputDecoration(
-                      hintText: "Email",
+                    decoration: const InputDecoration(
+                      hintText: "Email address",
+                      prefixIcon: Icon(Icons.email_outlined,
+                          color: AppColors.textHint, size: 22),
                     ),
+                    keyboardType: TextInputType.emailAddress,
                     validator: (String? value) {
                       String inputText = value ?? '';
                       if (EmailValidator.validate(inputText) == false) {
@@ -59,12 +85,28 @@ class _LoginScreenState extends State<LoginScreen> {
                       return null;
                     },
                   ),
-                  SizedBox(height: 8,),
+                  const SizedBox(height: 16),
                   TextFormField(
                     controller: _passwordController,
-                    obscureText: true,
+                    obscureText: _obscurePassword,
                     decoration: InputDecoration(
                       hintText: "Password",
+                      prefixIcon: const Icon(Icons.lock_outline_rounded,
+                          color: AppColors.textHint, size: 22),
+                      suffixIcon: IconButton(
+                        icon: Icon(
+                          _obscurePassword
+                              ? Icons.visibility_off_outlined
+                              : Icons.visibility_outlined,
+                          color: AppColors.textHint,
+                          size: 22,
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            _obscurePassword = !_obscurePassword;
+                          });
+                        },
+                      ),
                     ),
                     validator: (String? value) {
                       if ((value?.length ?? 0) < 6) {
@@ -73,43 +115,66 @@ class _LoginScreenState extends State<LoginScreen> {
                       return null;
                     },
                   ),
-                  SizedBox(height: 30,),
-                  Visibility(
-                    visible: _loginInProgress == false,
-                    replacement: Center(child: CircularProgressIndicator(),),
-                    child: FilledButton(
-                      onPressed: _onTapLoginButton,
-                      child: Icon(Icons.arrow_circle_right_outlined),
+                  const SizedBox(height: 10),
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: TextButton(
+                      onPressed: _onTapForgetPasswordButton,
+                      style: TextButton.styleFrom(
+                        foregroundColor: AppColors.primary,
+                      ),
+                      child: const Text(
+                        "Forgot Password?",
+                        style: TextStyle(fontWeight: FontWeight.w600),
+                      ),
                     ),
                   ),
-                  SizedBox(height: 30,),
-                  Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        TextButton(onPressed: () {
-                          _onTapForgetPasswordButton();
-                        }, child: Text("Forgot Password?", style: TextStyle(color: Colors.green),)),
-                        RichText(
-                          text: TextSpan(
-                            text: "Don't have an account? ",
-                            style: TextStyle(color: Colors.black),
-                            children: [
-                              TextSpan(
-                                text: "Sign Up",
-                                style: TextStyle(color: Colors.green),
-                                recognizer: TapGestureRecognizer()..onTap = (){
-                                  _onTapSignUpButton();
-                                },
-          
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
+                  const SizedBox(height: 12),
+                  Visibility(
+                    visible: _loginInProgress == false,
+                    replacement: const Center(
+                      child: Padding(
+                        padding: EdgeInsets.all(12),
+                        child: CircularProgressIndicator(
+                            color: AppColors.primary),
+                      ),
                     ),
-                  )
-          
+                    child: FilledButton(
+                      onPressed: _onTapLoginButton,
+                      child: const Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text("Sign In"),
+                          SizedBox(width: 8),
+                          Icon(Icons.arrow_forward_rounded, size: 20),
+                        ],
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 36),
+                  Center(
+                    child: RichText(
+                      text: TextSpan(
+                        text: "Don't have an account? ",
+                        style: const TextStyle(
+                          color: AppColors.textSecondary,
+                          fontSize: 15,
+                        ),
+                        children: [
+                          TextSpan(
+                            text: "Sign Up",
+                            style: const TextStyle(
+                              color: AppColors.primary,
+                              fontWeight: FontWeight.w700,
+                            ),
+                            recognizer: TapGestureRecognizer()
+                              ..onTap = _onTapSignUpButton,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 24),
                 ],
               ),
             ),
@@ -119,47 +184,46 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  void _onTapSignUpButton(){
+  void _onTapSignUpButton() {
     Navigator.pushNamed(context, SignUpScreen.name);
   }
 
-  void _onTapForgetPasswordButton(){
+  void _onTapForgetPasswordButton() {
     Navigator.pushNamed(context, ForgetPassword.name);
   }
-void _onTapLoginButton(){
-    if(_formKey.currentState!.validate()){
-    _login();
-  }
-}
-Future<void> _login()async{
-    _loginInProgress = true;
-    setState(() {
 
-    });
+  void _onTapLoginButton() {
+    if (_formKey.currentState!.validate()) {
+      _login();
+    }
+  }
+
+  Future<void> _login() async {
+    _loginInProgress = true;
+    setState(() {});
     Map<String, dynamic> requestBody = {
       "email": _emailController.text.trim(),
-      "password" : _passwordController.text,
+      "password": _passwordController.text,
     };
-    final ApiResponse response = await ApiCaller.postRequest(url: Urls.loginUrl, body: requestBody);
+    final ApiResponse response =
+        await ApiCaller.postRequest(url: Urls.loginUrl, body: requestBody);
 
-    if(response.isSuccess && response.responseData['status']=='success'){
+    if (response.isSuccess && response.responseData['status'] == 'success') {
       UserModel model = UserModel.fromJson(response.responseData['data']);
       String accessToken = response.responseData['token'];
       await AuthController.saveUserData(model, accessToken);
-      showSnackBarMessage(context, "Login Successful", Colors.green);
-      Navigator.pushNamedAndRemoveUntil(context, MainNavBarHolderScreen.name, (predicate)=> false);
-    }
-    else{
+      showSnackBarMessage(
+          context, "Login Successful", AppColors.statusCompleted);
+      Navigator.pushNamedAndRemoveUntil(
+          context, MainNavBarHolderScreen.name, (predicate) => false);
+    } else {
       _loginInProgress = false;
-      setState(() {
-      });
+      setState(() {});
       final message = response.responseData['data'];
-      showSnackBarMessage(context, message ?? response.errorMessage!, Colors.red);
+      showSnackBarMessage(
+          context, message ?? response.errorMessage!, AppColors.statusCancelled);
     }
-
-
-}
-
+  }
 
   @override
   void dispose() {

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:task_manager/data/services/api_caller.dart';
 import 'package:task_manager/data/utils/urls.dart';
+import 'package:task_manager/ui/utils/app_colors.dart';
 import 'package:task_manager/ui/widgets/Screen_Background.dart';
 import 'package:task_manager/ui/widgets/tm_app_bar.dart';
 
@@ -28,23 +29,47 @@ class _AddNewTaskScreenState extends State<AddNewTaskScreen> {
       body: ScreenBackground(
         child: SingleChildScrollView(
           child: Padding(
-            padding: EdgeInsets.all(16),
+            padding: const EdgeInsets.symmetric(horizontal: 24),
             child: Form(
               autovalidateMode: AutovalidateMode.onUserInteraction,
               key: _formKey,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SizedBox(height: 32),
+                  const SizedBox(height: 32),
+                  Container(
+                    padding: const EdgeInsets.all(14),
+                    decoration: BoxDecoration(
+                      color: AppColors.accent.withValues(alpha: 0.1),
+                      borderRadius: BorderRadius.circular(18),
+                    ),
+                    child: const Icon(
+                      Icons.add_task_rounded,
+                      size: 36,
+                      color: AppColors.accent,
+                    ),
+                  ),
+                  const SizedBox(height: 20),
                   Text(
-                    "Add new task",
+                    "Add New Task",
                     style: Theme.of(context).textTheme.titleLarge,
                   ),
-                  SizedBox(height: 8),
+                  const SizedBox(height: 6),
+                  Text(
+                    "Fill in the details below to create a new task",
+                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                          color: AppColors.textSecondary,
+                        ),
+                  ),
+                  const SizedBox(height: 28),
                   TextFormField(
                     controller: _titleController,
                     textInputAction: TextInputAction.next,
-                    decoration: InputDecoration(hintText: "Title"),
+                    decoration: const InputDecoration(
+                      hintText: "Task title",
+                      prefixIcon: Icon(Icons.title_rounded,
+                          color: AppColors.textHint, size: 22),
+                    ),
                     validator: (String? value) {
                       if (value?.trim().isEmpty ?? true) {
                         return 'Enter your title';
@@ -52,11 +77,19 @@ class _AddNewTaskScreenState extends State<AddNewTaskScreen> {
                       return null;
                     },
                   ),
-                  SizedBox(height: 8),
+                  const SizedBox(height: 16),
                   TextFormField(
                     controller: _descriptionController,
                     maxLines: 6,
-                    decoration: InputDecoration(hintText: "Description"),
+                    decoration: InputDecoration(
+                      hintText: "Task description",
+                      alignLabelWithHint: true,
+                      prefixIcon: Padding(
+                        padding: const EdgeInsets.only(bottom: 96),
+                        child: Icon(Icons.description_outlined,
+                            color: AppColors.textHint, size: 22),
+                      ),
+                    ),
                     validator: (String? value) {
                       if (value?.trim().isEmpty ?? true) {
                         return 'Enter your description';
@@ -64,15 +97,26 @@ class _AddNewTaskScreenState extends State<AddNewTaskScreen> {
                       return null;
                     },
                   ),
-                  SizedBox(height: 16),
+                  const SizedBox(height: 28),
                   Visibility(
                     visible: _addNewTaskInProgress == false,
-                    replacement: Center(
-                      child: CircularProgressIndicator(),
+                    replacement: const Center(
+                      child: Padding(
+                        padding: EdgeInsets.all(12),
+                        child:
+                            CircularProgressIndicator(color: AppColors.primary),
+                      ),
                     ),
                     child: FilledButton(
                       onPressed: _onTapAddButton,
-                      child: Text("Add"),
+                      child: const Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(Icons.add_rounded, size: 22),
+                          SizedBox(width: 8),
+                          Text("Create Task"),
+                        ],
+                      ),
                     ),
                   ),
                 ],
@@ -108,9 +152,11 @@ class _AddNewTaskScreenState extends State<AddNewTaskScreen> {
     setState(() {});
     if (response.isSuccess) {
       _clearTextField();
-      showSnackBarMessage(context, "Task added successfully", Colors.green);
+      showSnackBarMessage(
+          context, "Task added successfully", AppColors.statusCompleted);
     } else {
-      showSnackBarMessage(context, response.errorMessage!, Colors.red);
+      showSnackBarMessage(
+          context, response.errorMessage!, AppColors.statusCancelled);
     }
   }
 

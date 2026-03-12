@@ -1,6 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:task_manager/ui/screens/sign_up_screen.dart';
+import 'package:task_manager/ui/utils/app_colors.dart';
 import 'package:task_manager/ui/widgets/Screen_Background.dart';
 
 import 'forget_password_otp_screen.dart';
@@ -14,7 +15,6 @@ class ForgetPassword extends StatefulWidget {
 }
 
 class _ForgetPasswordState extends State<ForgetPassword> {
-
   TextEditingController _emailController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
@@ -24,55 +24,83 @@ class _ForgetPasswordState extends State<ForgetPassword> {
       body: ScreenBackground(
         child: SingleChildScrollView(
           child: Padding(
-            padding: const EdgeInsets.all(16.0),
+            padding: const EdgeInsets.symmetric(horizontal: 24.0),
             child: Form(
               key: _formKey,
               child: Column(
-               crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SizedBox(height: 80,),
-                  Text("Enter Your Email Address", style: Theme.of(context).textTheme.titleLarge,),
-                  SizedBox(height: 4,),
-                  Text("A 6 digit OTP will be sent to your email address",style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: Colors.grey)),
-                  SizedBox(height: 24,),
-              
+                  const SizedBox(height: 100),
+                  Container(
+                    padding: const EdgeInsets.all(16),
+                    decoration: BoxDecoration(
+                      color: AppColors.statusProgress.withValues(alpha: 0.12),
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: const Icon(
+                      Icons.lock_reset_rounded,
+                      size: 40,
+                      color: AppColors.statusProgress,
+                    ),
+                  ),
+                  const SizedBox(height: 24),
+                  Text(
+                    "Forgot Password?",
+                    style: Theme.of(context).textTheme.titleLarge,
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    "Enter your email address and we'll send you a 6-digit OTP to reset your password.",
+                    style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                          color: AppColors.textSecondary,
+                          height: 1.5,
+                        ),
+                  ),
+                  const SizedBox(height: 32),
                   TextField(
                     controller: _emailController,
-                    decoration: InputDecoration(
-                      hintText: "Email",
-                    )
+                    decoration: const InputDecoration(
+                      hintText: "Email address",
+                      prefixIcon: Icon(Icons.email_outlined,
+                          color: AppColors.textHint, size: 22),
+                    ),
+                    keyboardType: TextInputType.emailAddress,
                   ),
-
-                  SizedBox(height: 30,),
+                  const SizedBox(height: 28),
                   FilledButton(
                     onPressed: _onTapNextButton,
-                    child: Icon(Icons.arrow_circle_right_outlined),
-                  ),
-                  SizedBox(height: 30,),
-                  Center(
-                    child: Column(
+                    child: const Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                          RichText(
-                          text: TextSpan(
-                            text: "Don't have an account? ",
-                            style: TextStyle(color: Colors.black),
-                            children: [
-                              TextSpan(
-                                text: "Sign Up",
-                                style: TextStyle(color: Colors.green),
-                                recognizer: TapGestureRecognizer()..onTap = (){
-                                  _onTapSignUpButton();
-                                },
-          
-                              ),
-                            ],
-                          ),
-                        ),
+                        Text("Send OTP"),
+                        SizedBox(width: 8),
+                        Icon(Icons.arrow_forward_rounded, size: 20),
                       ],
                     ),
-                  )
-          
+                  ),
+                  const SizedBox(height: 36),
+                  Center(
+                    child: RichText(
+                      text: TextSpan(
+                        text: "Don't have an account? ",
+                        style: const TextStyle(
+                          color: AppColors.textSecondary,
+                          fontSize: 15,
+                        ),
+                        children: [
+                          TextSpan(
+                            text: "Sign Up",
+                            style: const TextStyle(
+                              color: AppColors.primary,
+                              fontWeight: FontWeight.w700,
+                            ),
+                            recognizer: TapGestureRecognizer()
+                              ..onTap = _onTapSignUpButton,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -82,13 +110,13 @@ class _ForgetPasswordState extends State<ForgetPassword> {
     );
   }
 
-  void _onTapSignUpButton(){
+  void _onTapSignUpButton() {
     Navigator.pushNamed(context, SignUpScreen.name);
   }
-  void _onTapNextButton(){
+
+  void _onTapNextButton() {
     Navigator.pushNamed(context, ForgetPasswordOtpScreen.name);
   }
-
 
   @override
   void dispose() {
